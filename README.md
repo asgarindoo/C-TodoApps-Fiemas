@@ -76,6 +76,6 @@ taskflow/
 
 ## Kredensial DB Default
 - Host: localhost
-- User: sutan
-- Pass: ilmi
+- User: adminjarkom
+- Pass: segosambel
 - DB: todo_app
