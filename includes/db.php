@@ -1,7 +1,7 @@
 <?php
 define('DB_HOST', 'localhost');
-define('DB_USER', 'sutan');
-define('DB_PASS', 'ilmi');
+define('DB_USER', 'trial');
+define('DB_PASS', 'coba');
 define('DB_NAME', 'todo_app');
 
 function getDB() {
