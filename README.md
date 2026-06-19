@@ -79,3 +79,6 @@ taskflow/
 - User: adminjarkom
 - Pass: segosambel
 - DB: todo_app
+
+<img width="1365" height="646" alt="image" src="https://github.com/user-attachments/assets/a64f612a-6dc6-4554-a232-9dd1764663b6" />
+
