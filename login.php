@@ -55,226 +55,384 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>TaskFlow — <?= $mode === 'login' ? 'Masuk' : 'Daftar' ?></title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<script src="https://unpkg.com/lucide@latest"></script>
 <style>
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
 :root {
-    --bg: #0f0f11;
-    --surface: #17171a;
-    --surface2: #1e1e22;
-    --border: #2a2a30;
-    --text: #e8e8ed;
-    --muted: #6b6b78;
-    --accent: #a78bfa;
-    --accent2: #7c3aed;
-    --danger: #f87171;
-    --success: #34d399;
-    --warn: #fbbf24;
+    --bg: #0A0A0C;
+    --surface: #121214;
+    --surface2: #1A1A1E;
+    --border: rgba(255,255,255,0.05);
+    --border-hover: rgba(255,255,255,0.12);
+    --text: #FAFAFA;
+    --muted: #52525B;
+    --accent: #FACC15;
+    --accent-hover: #EAB308;
+    --accent-light: #FEF08A;
+    --danger: #EF4444;
+    --success: #10B981;
 }
 
 body {
-    font-family: 'DM Sans', sans-serif;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
     background: var(--bg);
     color: var(--text);
     min-height: 100vh;
     display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 1.5rem;
+    position: relative;
+    overflow-x: hidden;
+}
+
+.split-layout {
+    display: flex;
+    width: 100%;
+    min-height: 100vh;
+}
+
+.left-panel {
+    display: none;
+    flex: 1;
+    background: #0A0A0C;
     position: relative;
     overflow: hidden;
+    padding: 3rem;
+    flex-direction: column;
+    justify-content: center;
+    border-right: 1px solid var(--border);
 }
 
-body::before {
-    content: '';
-    position: fixed;
-    width: 500px; height: 500px;
-    background: radial-gradient(circle, rgba(124,58,237,.15) 0%, transparent 70%);
-    top: -100px; left: -100px;
-    pointer-events: none;
-}
-body::after {
-    content: '';
-    position: fixed;
-    width: 400px; height: 400px;
-    background: radial-gradient(circle, rgba(167,139,250,.08) 0%, transparent 70%);
-    bottom: -80px; right: -80px;
-    pointer-events: none;
+@media (min-width: 1024px) {
+    .left-panel {
+        display: flex;
+    }
 }
 
-.auth-card {
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: 20px;
-    padding: 2.5rem;
-    width: 100%;
-    max-width: 420px;
+.branding-content {
     position: relative;
-    z-index: 1;
-    animation: slideUp .4s ease;
+    z-index: 10;
+    max-width: 480px;
 }
 
-@keyframes slideUp {
-    from { opacity: 0; transform: translateY(20px); }
-    to   { opacity: 1; transform: translateY(0); }
-}
-
-.logo {
+.branding-logo {
     display: flex;
     align-items: center;
-    gap: .6rem;
+    gap: 0.6rem;
     margin-bottom: 2rem;
 }
-.logo-icon {
-    width: 38px; height: 38px;
-    background: linear-gradient(135deg, var(--accent2), var(--accent));
-    border-radius: 10px;
-    display: flex; align-items: center; justify-content: center;
-    font-size: 1.1rem;
-}
-.logo-text {
-    font-size: 1.25rem;
-    font-weight: 600;
-    letter-spacing: -.02em;
-}
-.logo-sub { color: var(--muted); font-size: .8rem; margin-top: 1px; }
 
-h1 { font-size: 1.4rem; font-weight: 600; margin-bottom: .4rem; }
-.subtitle { color: var(--muted); font-size: .88rem; margin-bottom: 1.8rem; }
+.logo-dot {
+    width: 8px;
+    height: 8px;
+    background: var(--accent);
+    border-radius: 50%;
+    flex-shrink: 0;
+}
+
+.logo-name {
+    font-size: 1.5rem;
+    font-weight: 700;
+    letter-spacing: -0.03em;
+    color: var(--text);
+}
+
+.branding-title {
+    font-size: 3rem;
+    font-weight: 700;
+    letter-spacing: -0.03em;
+    margin-bottom: 1rem;
+    color: #fff;
+}
+
+.branding-desc {
+    font-size: 1.125rem;
+    color: var(--text2);
+    line-height: 1.6;
+}
+
+.right-panel {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 2rem;
+    position: relative;
+}
+
+.auth-container {
+    width: 100%;
+    max-width: 400px;
+    animation: fadeUp 0.5s ease-out;
+}
+
+@keyframes fadeUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.mobile-logo {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.6rem;
+    margin-bottom: 2rem;
+}
+
+@media (min-width: 1024px) {
+    .mobile-logo {
+        display: none;
+    }
+}
+
+.mobile-logo-text {
+    font-size: 1.25rem;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+}
+
+.auth-header {
+    text-align: center;
+    margin-bottom: 2rem;
+}
+
+.auth-title {
+    font-size: 1.75rem;
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+    letter-spacing: -0.02em;
+}
+
+.auth-subtitle {
+    color: var(--muted);
+    font-size: 0.95rem;
+}
 
 .tabs {
     display: flex;
     background: var(--surface2);
-    border-radius: 10px;
+    border-radius: 8px;
     padding: 4px;
-    margin-bottom: 1.8rem;
-    gap: 4px;
+    margin-bottom: 2rem;
+    border: 1px solid var(--border);
 }
+
 .tab {
     flex: 1;
-    padding: .5rem;
+    padding: 0.6rem;
     text-align: center;
-    border-radius: 7px;
-    font-size: .875rem;
+    border-radius: 6px;
+    font-size: 0.875rem;
     font-weight: 500;
     cursor: pointer;
     color: var(--muted);
     text-decoration: none;
-    transition: all .2s;
+    transition: all 0.2s ease;
 }
+
+.tab:hover {
+    color: var(--text);
+}
+
 .tab.active {
     background: var(--surface);
     color: var(--text);
-    box-shadow: 0 1px 3px rgba(0,0,0,.4);
+    box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+    border: 1px solid var(--border);
 }
 
-.form-group { margin-bottom: 1.1rem; }
-label { display: block; font-size: .82rem; color: var(--muted); margin-bottom: .4rem; letter-spacing: .02em; }
+.form-group {
+    margin-bottom: 1.25rem;
+}
+
+label {
+    display: block;
+    font-size: 0.85rem;
+    font-weight: 500;
+    color: var(--text);
+    margin-bottom: 0.5rem;
+}
+
 input {
     width: 100%;
-    background: var(--surface2);
+    background: var(--surface);
     border: 1px solid var(--border);
-    border-radius: 10px;
-    padding: .7rem 1rem;
+    border-radius: 8px;
+    padding: 0.75rem 1rem;
     color: var(--text);
     font-family: inherit;
-    font-size: .9rem;
-    transition: border-color .2s;
+    font-size: 0.95rem;
+    transition: all 0.2s ease;
     outline: none;
+    box-shadow: 0 1px 2px rgba(0,0,0,0.1);
 }
-input:focus { border-color: var(--accent); }
-input::placeholder { color: var(--muted); }
+
+input:hover {
+    border-color: var(--border-hover);
+}
+
+input:focus {
+    border-color: var(--accent);
+    box-shadow: 0 0 0 3px rgba(250, 204, 21, 0.15);
+}
+
+input::placeholder {
+    color: var(--muted);
+}
 
 .btn {
     width: 100%;
-    padding: .75rem;
-    background: linear-gradient(135deg, var(--accent2), var(--accent));
+    padding: 0.8rem;
+    background: var(--accent);
     border: none;
-    border-radius: 10px;
-    color: #fff;
+    border-radius: 8px;
+    color: #000;
     font-family: inherit;
-    font-size: .95rem;
+    font-size: 0.95rem;
     font-weight: 600;
     cursor: pointer;
-    margin-top: .5rem;
-    transition: opacity .2s, transform .1s;
+    margin-top: 0.5rem;
+    transition: all 0.2s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
 }
-.btn:hover { opacity: .9; }
-.btn:active { transform: scale(.99); }
+
+.btn:hover {
+    background: var(--accent-hover);
+    transform: translateY(-1px);
+}
+
+.btn:active {
+    transform: translateY(0);
+}
 
 .alert {
-    padding: .7rem 1rem;
-    border-radius: 10px;
-    font-size: .85rem;
-    margin-bottom: 1.2rem;
+    padding: 0.8rem 1rem;
+    border-radius: 8px;
+    font-size: 0.875rem;
+    margin-bottom: 1.5rem;
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
 }
-.alert-error { background: rgba(248,113,113,.1); border: 1px solid rgba(248,113,113,.3); color: var(--danger); }
-.alert-success { background: rgba(52,211,153,.1); border: 1px solid rgba(52,211,153,.3); color: var(--success); }
+
+.alert i {
+    flex-shrink: 0;
+    width: 18px;
+    height: 18px;
+}
+
+.alert-error {
+    background: rgba(239, 68, 68, 0.08);
+    border: 1px solid rgba(239, 68, 68, 0.15);
+    color: #FCA5A5;
+}
+
+.alert-success {
+    background: rgba(16, 185, 129, 0.08);
+    border: 1px solid rgba(16, 185, 129, 0.15);
+    color: #6EE7B7;
+}
 </style>
 </head>
 <body>
-<div class="auth-card">
-    <div class="logo">
-        <div class="logo-icon">✅</div>
-        <div>
-            <div class="logo-text">TaskFlow</div>
-            <div class="logo-sub">Manajemen Tugas</div>
+
+<div class="split-layout">
+    <!-- Left Panel: Branding -->
+    <div class="left-panel">
+        <div class="branding-content">
+            <div class="branding-logo">
+                <div class="logo-dot"></div>
+                <div class="logo-name">TaskFlow</div>
+            </div>
+            <p class="branding-desc">Tingkatkan produktivitas Anda dengan manajemen tugas yang modern, cepat, dan terorganisir.</p>
         </div>
     </div>
 
-    <div class="tabs">
-        <a href="?mode=login" class="tab <?= $mode === 'login' ? 'active' : '' ?>">Masuk</a>
-        <a href="?mode=register" class="tab <?= $mode === 'register' ? 'active' : '' ?>">Daftar</a>
+    <!-- Right Panel: Auth Form -->
+    <div class="right-panel">
+        <div class="auth-container">
+            
+            <div class="mobile-logo">
+                <div class="logo-dot"></div>
+                <div class="mobile-logo-text">TaskFlow</div>
+            </div>
+
+            <div class="auth-header">
+                <h1 class="auth-title"><?= $mode === 'login' ? 'Selamat Datang Kembali' : 'Buat Akun Baru' ?></h1>
+                <p class="auth-subtitle"><?= $mode === 'login' ? 'Masuk ke akun Anda untuk melanjutkan' : 'Bergabung dan kelola tugas Anda dengan mudah' ?></p>
+            </div>
+
+            <div class="tabs">
+                <a href="?mode=login" class="tab <?= $mode === 'login' ? 'active' : '' ?>">Masuk</a>
+                <a href="?mode=register" class="tab <?= $mode === 'register' ? 'active' : '' ?>">Daftar</a>
+            </div>
+
+            <?php if ($error): ?>
+            <div class="alert alert-error">
+                <i data-lucide="alert-circle"></i>
+                <span><?= htmlspecialchars($error) ?></span>
+            </div>
+            <?php endif; ?>
+            
+            <?php if ($success): ?>
+            <div class="alert alert-success">
+                <i data-lucide="check-circle"></i>
+                <span><?= htmlspecialchars($success) ?></span>
+            </div>
+            <?php endif; ?>
+
+            <?php if ($mode === 'login'): ?>
+            <form method="POST">
+                <input type="hidden" name="mode" value="login">
+                <div class="form-group">
+                    <label>Username atau Email</label>
+                    <input type="text" name="username" placeholder="Masukkan username / email" required autofocus>
+                </div>
+                <div class="form-group">
+                    <label>Password</label>
+                    <input type="password" name="password" placeholder="••••••••" required>
+                </div>
+                <button class="btn" type="submit">
+                    Masuk
+                    <i data-lucide="arrow-right" style="width:16px;height:16px"></i>
+                </button>
+            </form>
+
+            <?php else: ?>
+            <form method="POST">
+                <input type="hidden" name="mode" value="register">
+                <div class="form-group">
+                    <label>Username</label>
+                    <input type="text" name="username" placeholder="Pilih username Anda" required autofocus>
+                </div>
+                <div class="form-group">
+                    <label>Email</label>
+                    <input type="email" name="email" placeholder="nama@email.com" required>
+                </div>
+                <div class="form-group">
+                    <label>Password</label>
+                    <input type="password" name="password" placeholder="Minimal 6 karakter" required>
+                </div>
+                <div class="form-group">
+                    <label>Konfirmasi Password</label>
+                    <input type="password" name="confirm" placeholder="Ulangi password" required>
+                </div>
+                <button class="btn" type="submit">
+                    Daftar Sekarang
+                    <i data-lucide="arrow-right" style="width:16px;height:16px"></i>
+                </button>
+            </form>
+            <?php endif; ?>
+        </div>
     </div>
-
-    <?php if ($error): ?>
-    <div class="alert alert-error"><?= htmlspecialchars($error) ?></div>
-    <?php endif; ?>
-    <?php if ($success): ?>
-    <div class="alert alert-success"><?= htmlspecialchars($success) ?></div>
-    <?php endif; ?>
-
-    <?php if ($mode === 'login'): ?>
-    <h1>Selamat datang</h1>
-    <p class="subtitle">Masuk untuk melanjutkan ke TaskFlow</p>
-    <form method="POST">
-        <input type="hidden" name="mode" value="login">
-        <div class="form-group">
-            <label>Username atau Email</label>
-            <input type="text" name="username" placeholder="username / email" required autofocus>
-        </div>
-        <div class="form-group">
-            <label>Password</label>
-            <input type="password" name="password" placeholder="••••••••" required>
-        </div>
-        <button class="btn" type="submit">Masuk →</button>
-    </form>
-
-    <?php else: ?>
-    <h1>Buat akun baru</h1>
-    <p class="subtitle">Bergabung dan mulai kelola tugasmu</p>
-    <form method="POST">
-        <input type="hidden" name="mode" value="register">
-        <div class="form-group">
-            <label>Username</label>
-            <input type="text" name="username" placeholder="pilih username" required autofocus>
-        </div>
-        <div class="form-group">
-            <label>Email</label>
-            <input type="email" name="email" placeholder="email@contoh.com" required>
-        </div>
-        <div class="form-group">
-            <label>Password</label>
-            <input type="password" name="password" placeholder="min. 6 karakter" required>
-        </div>
-        <div class="form-group">
-            <label>Konfirmasi Password</label>
-            <input type="password" name="confirm" placeholder="ulangi password" required>
-        </div>
-        <button class="btn" type="submit">Daftar Sekarang →</button>
-    </form>
-    <?php endif; ?>
 </div>
+
+<script>
+    // Initialize Lucide icons
+    lucide.createIcons();
+</script>
 </body>
 </html>
